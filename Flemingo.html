@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duty-Free Customer Feedback</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for a modern look */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure it takes full viewport height */
+            padding: 1rem; /* Add some padding on smaller screens */
+        }
+        /* Custom styles for focus states and shadows */
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* Blue focus ring */
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #3b82f6; /* Blue spinner */
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full md:p-10">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Share Your Feedback!</h1>
+        <p class="text-gray-600 mb-8 text-center">
+            We'd love to hear about your experience at our duty-free shop. Your feedback helps us improve!
+        </p>
+
+        <form id="feedbackForm" class="space-y-6">
+            <div>
+                <label for="customerName" class="block text-sm font-medium text-gray-700 mb-1">Your Name (Optional)</label>
+                <input type="text" id="customerName" name="customerName"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                       placeholder="e.g., Jane Doe">
+            </div>
+
+            <div>
+                <label for="customerEmail" class="block text-sm font-medium text-gray-700 mb-1">Email (Optional)</label>
+                <input type="email" id="customerEmail" name="customerEmail"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                       placeholder="e.g., jane.doe@example.com">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Overall Experience:</label>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="experienceRating" value="excellent" class="form-radio h-4 w-4 text-green-600 border-gray-300 rounded-full focus:ring-green-500" required>
+                        <span class="ml-2 text-gray-700">Excellent</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="experienceRating" value="good" class="form-radio h-4 w-4 text-blue-600 border-gray-300 rounded-full focus:ring-blue-500">
+                        <span class="ml-2 text-gray-700">Good</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="experienceRating" value="average" class="form-radio h-4 w-4 text-yellow-600 border-gray-300 rounded-full focus:ring-yellow-500">
+                        <span class="ml-2 text-gray-700">Average</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="experienceRating" value="poor" class="form-radio h-4 w-4 text-red-600 border-gray-300 rounded-full focus:ring-red-500">
+                        <span class="ml-2 text-gray-700">Poor</span>
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">What products did you shop for today? (Select all that apply)</label>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="productCategory" value="fragrances" class="form-checkbox h-4 w-4 text-purple-600 rounded focus:ring-purple-500">
+                        <span class="ml-2 text-gray-700">Fragrances</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="productCategory" value="cosmetics" class="form-checkbox h-4 w-4 text-pink-600 rounded focus:ring-pink-500">
+                        <span class="ml-2 text-gray-700">Cosmetics</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="productCategory" value="liquor" class="form-checkbox h-4 w-4 text-indigo-600 rounded focus:ring-indigo-500">
+                        <span class="ml-2 text-gray-700">Liquor</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="productCategory" value="tobacco" class="form-checkbox h-4 w-4 text-gray-600 rounded focus:ring-gray-500">
+                        <span class="ml-2 text-gray-700">Tobacco</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="productCategory" value="confectionery" class="form-checkbox h-4 w-4 text-red-600 rounded focus:ring-red-500">
+                        <span class="ml-2 text-gray-700">Confectionery</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="productCategory" value="fashion" class="form-checkbox h-4 w-4 text-teal-600 rounded focus:ring-teal-500">
+                        <span class="ml-2 text-gray-700">Fashion</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="productCategory" value="electronics" class="form-checkbox h-4 w-4 text-orange-600 rounded focus:ring-orange-500">
+                        <span class="ml-2 text-gray-700">Electronics</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="productCategory" value="other" class="form-checkbox h-4 w-4 text-gray-500 rounded focus:ring-gray-400">
+                        <span class="ml-2 text-gray-700">Other</span>
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <label for="comments" class="block text-sm font-medium text-gray-700 mb-1">Any additional comments or suggestions?</label>
+                <textarea id="comments" name="comments" rows="4"
+                          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                          placeholder="Your valuable feedback here..."></textarea>
+            </div>
+
+            <div>
+                <button type="submit"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200 ease-in-out transform hover:scale-105">
+                    Submit Feedback
+                </button>
+            </div>
+        </form>
+
+        <div id="confirmationMessage" class="hidden mt-8 p-6 bg-green-100 border border-green-400 text-green-700 rounded-lg shadow-md text-center">
+            <h3 class="text-xl font-semibold mb-2">Thank You!</h3>
+            <p>Your feedback has been successfully submitted. We appreciate your time!</p>
+
+            <div class="mt-6 space-y-4">
+                <button id="analyzeSentimentBtn"
+                        class="w-full flex items-center justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-md font-semibold text-white bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-150 ease-in-out">
+                    <span id="sentimentBtnText">Analyze Feedback Sentiment ✨</span>
+                    <div id="sentimentLoadingSpinner" class="loading-spinner ml-2 hidden"></div>
+                </button>
+                <div id="sentimentResult" class="hidden mt-2 p-3 bg-purple-50 border border-purple-200 text-purple-800 rounded-lg text-left"></div>
+
+                <button id="generateIdeasBtn"
+                        class="w-full flex items-center justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-md font-semibold text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-150 ease-in-out">
+                    <span id="ideasBtnText">Generate Improvement Ideas ✨</span>
+                    <div id="ideasLoadingSpinner" class="loading-spinner ml-2 hidden"></div>
+                </button>
+                <div id="ideasResult" class="hidden mt-2 p-3 bg-orange-50 border border-orange-200 text-orange-800 rounded-lg text-left"></div>
+            </div>
+
+            <button id="closeConfirmation" class="mt-6 py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-150 ease-in-out">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Get references to the form and confirmation message elements
+        const feedbackForm = document.getElementById('feedbackForm');
+        const confirmationMessage = document.getElementById('confirmationMessage');
+        const closeConfirmationButton = document.getElementById('closeConfirmation');
+        const analyzeSentimentBtn = document.getElementById('analyzeSentimentBtn');
+        const sentimentResult = document.getElementById('sentimentResult');
+        const sentimentLoadingSpinner = document.getElementById('sentimentLoadingSpinner');
+        const sentimentBtnText = document.getElementById('sentimentBtnText');
+        const generateIdeasBtn = document.getElementById('generateIdeasBtn');
+        const ideasResult = document.getElementById('ideasResult');
+        const ideasLoadingSpinner = document.getElementById('ideasLoadingSpinner');
+        const ideasBtnText = document.getElementById('ideasBtnText');
+
+        let submittedComments = ''; // Variable to store comments for LLM calls
+        let submittedRating = ''; // Variable to store rating for LLM calls
+        let submittedCategories = []; // Variable to store categories for LLM calls
+
+        // Function to call Gemini API
+        async function callGeminiAPI(prompt, outputElement, loadingSpinner, buttonTextElement) {
+            loadingSpinner.classList.remove('hidden');
+            buttonTextElement.classList.add('hidden');
+            outputElement.classList.add('hidden'); // Hide previous result
+            outputElement.innerHTML = ''; // Clear previous result
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // Canvas will automatically provide the API key at runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    outputElement.innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`; // Display response, handle newlines
+                    outputElement.classList.remove('hidden');
+                } else {
+                    outputElement.innerHTML = '<p class="text-red-600">Error: Could not get a valid response from the AI.</p>';
+                    outputElement.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Error calling Gemini API:', error);
+                outputElement.innerHTML = `<p class="text-red-600">Error: Failed to connect to AI. Please try again.</p>`;
+                outputElement.classList.remove('hidden');
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                buttonTextElement.classList.remove('hidden');
+            }
+        }
+
+        // Add an event listener for form submission
+        feedbackForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const experienceRating = document.querySelector('input[name="experienceRating"]:checked');
+            if (!experienceRating) {
+                console.error("Please select your overall experience.");
+                const ratingLabels = document.querySelectorAll('input[name="experienceRating"]');
+                ratingLabels.forEach(label => {
+                    label.parentElement.classList.add('ring-2', 'ring-red-500', 'rounded-md');
+                });
+                setTimeout(() => {
+                    ratingLabels.forEach(label => {
+                        label.parentElement.classList.remove('ring-2', 'ring-red-500', 'rounded-md');
+                    });
+                }, 3000);
+                return;
+            }
+
+            const formData = new FormData(feedbackForm);
+            const data = {};
+            submittedCategories = []; // Reset categories for new submission
+            for (let [key, value] of formData.entries()) {
+                if (key === 'productCategory') {
+                    submittedCategories.push(value);
+                } else {
+                    data[key] = value;
+                }
+            }
+            data.productCategory = submittedCategories; // Assign collected categories
+
+            submittedComments = data.comments || ''; // Store comments
+            submittedRating = data.experienceRating || ''; // Store rating
+
+            console.log('Form Data Submitted:', data);
+
+            // Hide LLM results when a new form is submitted
+            sentimentResult.classList.add('hidden');
+            ideasResult.classList.add('hidden');
+            sentimentResult.innerHTML = '';
+            ideasResult.innerHTML = '';
+
+            setTimeout(() => {
+                feedbackForm.reset();
+                feedbackForm.classList.add('hidden');
+                confirmationMessage.classList.remove('hidden');
+            }, 500);
+        });
+
+        // Event listener for Analyze Sentiment button
+        analyzeSentimentBtn.addEventListener('click', function() {
+            if (submittedComments.trim() === '') {
+                sentimentResult.innerHTML = '<p class="text-red-600">No comments provided to analyze sentiment.</p>';
+                sentimentResult.classList.remove('hidden');
+                return;
+            }
+            const prompt = `Analyze the sentiment of the following customer feedback comment and categorize it as 'Positive', 'Neutral', or 'Negative'. Provide only the sentiment category. Comment: "${submittedComments}"`;
+            callGeminiAPI(prompt, sentimentResult, sentimentLoadingSpinner, sentimentBtnText);
+        });
+
+        // Event listener for Generate Ideas button
+        generateIdeasBtn.addEventListener('click', function() {
+            let prompt = `Based on the following customer feedback, generate 3-5 concise and actionable improvement ideas for a duty-free shop.
+            Overall Experience: ${submittedRating}.`;
+            if (submittedCategories.length > 0) {
+                prompt += ` Products shopped for: ${submittedCategories.join(', ')}.`;
+            }
+            if (submittedComments.trim() !== '') {
+                prompt += ` Additional comments: "${submittedComments}".`;
+            }
+            prompt += ` Please list the ideas clearly.`;
+
+            callGeminiAPI(prompt, ideasResult, ideasLoadingSpinner, ideasBtnText);
+        });
+
+        // Add event listener to the close confirmation button
+        closeConfirmationButton.addEventListener('click', function() {
+            confirmationMessage.classList.add('hidden');
+            feedbackForm.classList.remove('hidden');
+            // Clear LLM results and hide them when closing confirmation
+            sentimentResult.classList.add('hidden');
+            ideasResult.classList.add('hidden');
+            sentimentResult.innerHTML = '';
+            ideasResult.innerHTML = '';
+        });
+    </script>
+</body>
+</html>
